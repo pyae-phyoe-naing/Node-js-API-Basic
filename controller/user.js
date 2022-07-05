@@ -2,20 +2,42 @@ const DB = require('../schema/user');
 const Helper = require('../utils/helper');
 
 const all = async (req, res, next) => {
-        const users = await DB.find();
-        Helper.flashMsg(res,'All Users', users);
+    const users = await DB.find();
+    Helper.flashMsg(res, 'All Users', users);
 }
 const add = async (req, res, next) => {
-    res.json({ msg: 'add new user',result:req.body });
+    const newUser = new DB(req.body);
+    const result = await newUser.save();
+    Helper.flashMsg(res, 'Success add new user', result);
 }
 const get = async (req, res, next) => {
-    res.json({ msg: 'get one user',result: req.params.id });
+    const user = await DB.findById(req.params.id);
+    Helper.flashMsg(res, 'Get Single User', user);
+
 }
 const patch = async (req, res, next) => {
-    res.json({ msg: 'update user',result:req.body });
+    const user = await DB.findById(req.params.id);
+    if (user) {
+        await DB.findByIdAndUpdate(user._id, req.body);
+        let updateUser = await DB.findById(user._id);
+        Helper.flashMsg(res, 'Success User Update', updateUser);
+    } else {
+          res.json({
+              msg: 'Error , No User this ID'
+          });
+    }
 }
 const drop = async (req, res, next) => {
-    res.json({ msg: 'delete user',result: req.params.id  });
+    const deleteUser = await DB.findById(req.params.id);
+    if (deleteUser) {
+        await DB.findByIdAndDelete(deleteUser._id);
+        Helper.flashMsg(res, 'Success User Delete', deleteUser);
+    } else {
+        res.json({
+            msg: 'Error , No User this ID'
+        });
+    }
+
 }
 module.exports = {
     all,

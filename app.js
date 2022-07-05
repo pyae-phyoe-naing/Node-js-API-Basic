@@ -13,4 +13,11 @@ const postRoute = require('./routes/post');
 app.use('/users', userRoute);
 app.use('/posts', postRoute);
 
+app.use((error, res, req, next) => {
+    error.status = error.status || 200;
+    res.status(error.status).json({
+        msg: error.message
+    });
+});
+
 app.listen(process.env.PORT, console.log(`server is running PORT ${process.env.PORT}`));
