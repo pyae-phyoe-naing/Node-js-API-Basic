@@ -2,7 +2,7 @@ const Helper = require('../utils/helper');
 const DB = require('../schema/post');
 
 const all = async (req, res, next) => {
-    const posts = await DB.find();
+    const posts = await DB.find().populate('user','-password -__v');
     Helper.flashMsg(res, "Get All Posts", posts);
 }
 const add = async (req, res, next) => {
@@ -12,7 +12,7 @@ const add = async (req, res, next) => {
 
 }
 const get = async (req, res, next) => {
-    const post = await DB.findById(req.params.id);
+    const post = await DB.findById(req.params.id).populate('user');
     if (post) {
         Helper.flashMsg(res, "Get single post", post);
     } else {
