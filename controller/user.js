@@ -22,9 +22,7 @@ const patch = async (req, res, next) => {
         let updateUser = await DB.findById(user._id);
         Helper.flashMsg(res, 'Success User Update', updateUser);
     } else {
-          res.json({
-              msg: 'Error , No User this ID'
-          });
+        next(new Error('No User this ID'));
     }
 }
 const drop = async (req, res, next) => {
@@ -33,9 +31,7 @@ const drop = async (req, res, next) => {
         await DB.findByIdAndDelete(deleteUser._id);
         Helper.flashMsg(res, 'Success User Delete', deleteUser);
     } else {
-        res.json({
-            msg: 'Error , No User this ID'
-        });
+        next(new Error('No User this ID'));
     }
 
 }

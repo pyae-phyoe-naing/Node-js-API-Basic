@@ -13,7 +13,7 @@ const postRoute = require('./routes/post');
 app.use('/users', userRoute);
 app.use('/posts', postRoute);
 
-app.use((error, res, req, next) => {
+app.use((error, req, res, next) => {
     error.status = error.status || 200;
     res.status(error.status).json({
         msg: error.message
