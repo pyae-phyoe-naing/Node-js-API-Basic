@@ -10,17 +10,10 @@ app.use(express.json());
 
 const userRoute = require('./routes/user');
 const postRoute = require('./routes/post');
+const {saveFile} = require('./utils/gallery');
 
-const testMiddleware = async (req, res, next) => {
-    // console.log(req.files);
-    // console.log(req.files.photo.name);
-    let file = req.files.photo;
-    let photoName = new Date().valueOf() + '_' + file.name;
-    file.mv(`./uploads/${photoName}`)
-    req.photoName = photoName;
-    next();
-}
-app.post('/gallery',testMiddleware, (req, res, next) => {
+
+app.post('/gallery',saveFile, (req, res, next) => {
     res.json({ photoName: req.photoName });
 })
 app.use('/users', userRoute);
