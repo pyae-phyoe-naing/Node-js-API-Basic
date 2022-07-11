@@ -10,15 +10,12 @@ app.use(fileUpload());
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+const categoryRoute = require('./routes/category');
 const userRoute = require('./routes/user');
 const postRoute = require('./routes/post');
 const {saveFile,saveFiles,deleteFile} = require('./utils/gallery');
 
-
-app.post('/gallery',saveFiles, async (req, res, next) => {
-   // await deleteFile(req.body.filename);
-    res.json({ photoName:'delete'});
-})
+app.use('/categories', categoryRoute);
 app.use('/users', userRoute);
 app.use('/posts', postRoute);
 
