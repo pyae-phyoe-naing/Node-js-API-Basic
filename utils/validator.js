@@ -8,5 +8,17 @@ module.exports = {
                 next();
             }
         }
+    },
+    validateParam: (schema,checkName) => {
+        return (req, res, next) => {
+            let obj = {};
+            obj[`${checkName}`] = req.params[`${checkName}`];
+            let result = schema.validate(obj);
+            if (result.error) {
+                next(new Error(result.error.details[0].message));
+            } else {
+                next();
+            }
+        }
     }
 }

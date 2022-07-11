@@ -18,8 +18,13 @@ const add = async (req, res, next) => {
     let result = await new DB(req.body).save();
     flashMsg(res, 'Add new category', result);
 }
+const get = async (req, res, next) => {
+    let cat = await DB.findById(req.params.id);
+    flashMsg(res, 'Get Category', cat);
+}
 
 module.exports = {
     all,
-    add
+    add,
+    get
 }
