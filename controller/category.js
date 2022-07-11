@@ -5,6 +5,12 @@ const all = async (req, res, next) => {
     flashMsg(res,'All Categories',cats);
 }
 
+const add = async (req, res, next) => {
+    const result = await new DB(req.body).save();
+    flashMsg(res, 'Add new category', result);
+}
+
 module.exports = {
-    all
+    all,
+    add
 }
