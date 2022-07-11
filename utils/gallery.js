@@ -1,3 +1,4 @@
+const fs = require('fs');
 const saveFile = async (req, res, next) => {
     // console.log(req.files);
     // console.log(req.files.file.name);
@@ -20,8 +21,11 @@ const saveFiles = async (req, res, next) => {
     req.body['images'] = photoNames.join(','); // join default is ','
     next();
 }
-
+const deleteFile = async (filename) => {
+    await fs.unlinkSync(`./uploads/${filename}`);
+}
 module.exports = {
     saveFile,
-    saveFiles
+    saveFiles,
+    deleteFile
 }
