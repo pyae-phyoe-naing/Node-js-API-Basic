@@ -10,11 +10,11 @@ app.use(express.json());
 
 const userRoute = require('./routes/user');
 const postRoute = require('./routes/post');
-const {saveFile} = require('./utils/gallery');
+const {saveFile,saveFiles} = require('./utils/gallery');
 
 
-app.post('/gallery',saveFile, (req, res, next) => {
-    res.json({ photoName: req.photoName });
+app.post('/gallery',saveFiles, (req, res, next) => {
+    res.json({ photoName:req.body.images});
 })
 app.use('/users', userRoute);
 app.use('/posts', postRoute);
